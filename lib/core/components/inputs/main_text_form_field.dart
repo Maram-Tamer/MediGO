@@ -8,17 +8,19 @@ import 'package:medigo/core/utils/fonts.dart';
 class MainTextFormField extends StatefulWidget {
   MainTextFormField({
     super.key,
-    required this.controller,
+    this.controller,
     this.textFormFieldText,
     this.maxTextLines = 1,
     this.validator,
     required this.ispassword,
+    this.colorFill,
   });
   bool ispassword = false;
   String? Function(String?)? validator;
   int maxTextLines;
   String? textFormFieldText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
+  final Color? colorFill;
 
   @override
   State<MainTextFormField> createState() => _MainTextFormFieldState();
@@ -36,6 +38,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
       maxLines: widget.maxTextLines,
       style: AppFontStyles.getSize18(),
       decoration: InputDecoration(
+        filled: true,
+        fillColor: widget.colorFill ?? AppColors.slateGrayColor,
         suffixIcon: widget.ispassword
             ? GestureDetector(
                 onTap: () {
