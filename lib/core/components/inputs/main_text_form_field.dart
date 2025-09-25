@@ -14,6 +14,7 @@ class MainTextFormField extends StatefulWidget {
     this.validator,
     required this.ispassword,
     this.colorFill,
+    this.label,
   });
   bool ispassword = false;
   String? Function(String?)? validator;
@@ -21,6 +22,7 @@ class MainTextFormField extends StatefulWidget {
   String? textFormFieldText;
   final TextEditingController? controller;
   final Color? colorFill;
+  final String? label;
 
   @override
   State<MainTextFormField> createState() => _MainTextFormFieldState();
@@ -38,6 +40,10 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
       maxLines: widget.maxTextLines,
       style: AppFontStyles.getSize18(),
       decoration: InputDecoration(
+        label: Text(
+          widget.label ?? "",
+          style: AppFontStyles.getSize14(fontColor: AppColors.greyColor),
+        ),
         filled: true,
         fillColor: widget.colorFill ?? AppColors.slateGrayColor,
         suffixIcon: widget.ispassword
@@ -49,8 +55,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
                 },
                 child: Icon(
                   isObsecure
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
                 ),
               )
             : null,

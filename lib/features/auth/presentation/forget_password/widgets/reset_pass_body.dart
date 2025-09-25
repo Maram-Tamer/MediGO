@@ -5,19 +5,19 @@ import 'package:medigo/core/components/inputs/main_text_form_field.dart';
 import 'package:medigo/core/utils/colors.dart';
 import 'package:medigo/core/utils/fonts.dart';
 
-class ForgetBody extends StatelessWidget {
-  const ForgetBody({super.key});
+class ResetPassBody extends StatelessWidget {
+  const ResetPassBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Forgot password",
+              "Reset Password",
               style: AppFontStyles.getSize32(fontWeight: FontWeight.w500),
             ),
             Gap(15),
@@ -25,14 +25,24 @@ class ForgetBody extends StatelessWidget {
               style: AppFontStyles.getSize14(
                 fontColor: AppColors.slateGrayColor,
               ),
-              "Enter your email for the verification proccesss,we will send 4 digits code to your email.",
+              "Set the new password for your account so you can login and access all the features.",
             ),
             Gap(45),
-            MainTextFormField(ispassword: false, colorFill: Colors.transparent),
-            Gap(80),
+            MainTextFormField(
+              label: "New Password",
+              ispassword: true,
+              colorFill: Colors.transparent,
+            ),
+            Gap(20),
+            MainTextFormField(
+              label: "Confirm Password",
+              ispassword: true,
+              colorFill: Colors.transparent,
+            ),
+            Gap(60),
             Center(
               child: MainButton(
-                buttonText: "Continue",
+                buttonText: "Update Password",
                 onPressed: () {},
                 width: 295,
               ),

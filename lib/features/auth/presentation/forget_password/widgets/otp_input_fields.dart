@@ -6,16 +6,15 @@ import 'package:pin_code_fields/pin_code_fields.dart'
 class OtpInputFields extends StatelessWidget {
   const OtpInputFields({super.key, this.validator});
   final String? Function(String?)? validator;
- // final TextEditingController? oTPcontroller = TextEditingController();
+  // final TextEditingController? oTPcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
- 
     return PinCodeTextField(
       validator: validator,
       //controller: oTPcontroller,
       appContext: context,
-      length: 6,
+      length: 4,
       obscureText: false,
       backgroundColor: Colors.transparent,
       keyboardType: TextInputType.number,
@@ -25,7 +24,7 @@ class OtpInputFields extends StatelessWidget {
         shape: PinCodeFieldShape.box,
         borderRadius: BorderRadius.circular(10),
         fieldHeight: 60,
-        fieldWidth: 50,
+        fieldWidth: 70,
         activeColor: AppColors.primaryGreenColor,
         selectedColor: AppColors.primaryGreenColor,
         inactiveColor: AppColors.greyColor,
