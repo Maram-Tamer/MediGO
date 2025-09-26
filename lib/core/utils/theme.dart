@@ -67,26 +67,24 @@ class AppTheme {
     ),
     //input decoration theme
     inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.greyColor.withValues(alpha: 0.1),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
-          color: AppColors.greyColor.withValues(alpha: 0.2),
-          width: 2,
+          color: AppColors.slateGrayColor.withValues(alpha: 0.2),
+          width: 1,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: AppColors.primaryGreenColor, width: 2),
+        borderSide: BorderSide(color: AppColors.primaryGreenColor, width: 1),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: Colors.red, width: 2),
+        borderSide: BorderSide(color: Colors.red, width: 1),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(color: Colors.red, width: 2),
+        borderSide: BorderSide(color: Colors.red, width: 1),
       ),
     ),
   );

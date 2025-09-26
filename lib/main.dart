@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medigo/core/utils/theme.dart';
+import 'package:medigo/features/auth/presentation/pages/forget_password/pages/reset_password_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      theme: AppTheme.lightTheme,
+      home: ResetPasswordScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
