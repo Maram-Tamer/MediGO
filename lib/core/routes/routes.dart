@@ -2,7 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:medigo/core/constatnts/images.dart';
 import 'package:medigo/features/Main/patient/main_patient_Screen.dart';
 import 'package:medigo/features/Main/hospital/main_hospital_Screen.dart';
-import 'package:medigo/features/auth/presentation/pages/DetailsAccount/DetailsSteps.dart';
 import 'package:medigo/features/auth/presentation/pages/DetailsAccount/Hospital/page/Hospital_step1.dart';
 import 'package:medigo/features/auth/presentation/pages/DetailsAccount/Hospital/page/Hospital_step2.dart';
 import 'package:medigo/features/auth/presentation/pages/DetailsAccount/Hospital/page/Hospital_step3.dart';
@@ -24,9 +23,9 @@ import 'package:medigo/features/splash/splash_screen.dart';
 
 class Routes {
   static const String splash = '/';
-  static const String OnBoarding_1 = '/OnBoarding1';
-  static const String OnBoarding_2 = '/OnBoarding2';
-  static const String OnBoarding_3 = '/OnBoarding3';
+  static const String onBoarding_1 = '/OnBoarding1';
+  static const String onBoarding_2 = '/OnBoarding2';
+  static const String onBoarding_3 = '/OnBoarding3';
   static const String welcom = '/welcome';
   static const String login_P = '/login-p';
   static const String login_H = '/login-h';
@@ -34,75 +33,91 @@ class Routes {
   static const String register_H = '/register-h';
   static const String Privacy = '/privacy';
   static const String forgetPassword = '/forget_password';
-  static const String OTP = '/otp';
-  static const String ResetPassword = '/reset-password';
+  static const String oTP = '/otp';
+  static const String resetPassword = '/reset-password';
 
   static const String EnerData_P = '/details-p';
   static const String EnerData_H = '/details-h';
+  static const String Patient_Step_1 = '/patient-1';
+  static const String Patient_Step_2 = '/patient-2';
+  static const String Patient_Step_3 = '/patient-3';
+  static const String Hospital_Step_1 = '/hospital-1';
+  static const String Hospital_Step_2 = '/hospital-2';
+  static const String Hospital_Step_3 = '/hospital-3';
 
   static const String Main_patient = '/main-p';
   static const String Main_hospital = '/main-h';
+  static const String chat = '/chat';
   static const String Search = '/Search';
+
+  static const String EditProfile = '/EditProfile';
+  static const String ChangePassword = '/ChangePassword';
+
 
   static final routes = GoRouter(
     routes: [
       GoRoute(path: splash, builder: (context, state) => SplashScreen()),
+      //GoRoute(path: Search, builder: (context, state) => SearchScreen()),
       GoRoute(path: Search, builder: (context, state) => SearchScreen()),
       GoRoute(
-        path: OnBoarding_1,
+        path: onBoarding_1,
         builder: (context, state) => FirstOnboardingScreen(),
       ),
       GoRoute(
-        path: OnBoarding_2,
+        path: onBoarding_2,
         builder: (context, state) => SecondOnboardingScreen(),
       ),
       GoRoute(
-        path: OnBoarding_3,
+        path: onBoarding_3,
         builder: (context, state) => ThirdOnboardingScreen(),
       ),
       GoRoute(path: welcom, builder: (context, state) => WelcomeScreen()),
       GoRoute(
         path: login_P,
-        builder: (context, state) => LoginScreen(
-          icon: AppImages.profileWelcom,
-          title: 'As Patient',
-          subTitle:
-              'You can send a request to the hospital for emergency treatment as soon as possible.',
-          route: Routes.register_P,
-          routeAfterLogin: Routes.Main_patient,
-        ),
+        builder:
+            (context, state) => LoginScreen(
+              icon: AppImages.profileWelcom,
+              title: 'As Patient',
+              subTitle:
+                  'You can send a request to the hospital for emergency treatment as soon as possible.',
+              route: Routes.register_P,
+              routeAfterLogin: Routes.Main_patient,
+            ),
       ),
       GoRoute(
         path: login_H,
-        builder: (context, state) => LoginScreen(
-          icon: AppImages.hpspitalWelcom,
-          title: 'As Hospital',
-          subTitle: 'You can receive emergency request calls.',
-          route: Routes.register_H,
-          routeAfterLogin: Routes.Main_hospital,
-        ),
+        builder:
+            (context, state) => LoginScreen(
+              icon: AppImages.hpspitalWelcom,
+              title: 'As Hospital',
+              subTitle: 'You can receive emergency request calls.',
+              route: Routes.register_H,
+              routeAfterLogin: Routes.Main_hospital,
+            ),
       ),
       GoRoute(
         path: register_P,
-        builder: (context, state) => RegesterScreen(
-          icon: AppImages.profileWelcom,
-          title: 'As Patient',
-          subTitle:
-              'You can send a request to the hospital for emergency treatment as soon as possible.',
-          routeLogin: Routes.login_P,
-          routeAfterRegister: Routes.EnerData_P,
-        ),
+        builder:
+            (context, state) => RegesterScreen(
+              icon: AppImages.profileWelcom,
+              title: 'As Patient',
+              subTitle:
+                  'You can send a request to the hospital for emergency treatment as soon as possible.',
+              routeLogin: Routes.login_P,
+              routeAfterRegister: Routes.Patient_Step_1,
+            ),
       ),
       GoRoute(
         path: register_H,
-        builder: (context, state) => RegesterScreen(
-          icon: AppImages.hpspitalWelcom,
-          title: 'As Hospital',
-          subTitle:
-              'You can send a request to the hospital for emergency treatment as soon as possible.',
-          routeLogin: Routes.login_H,
-          routeAfterRegister: Routes.EnerData_H,
-        ),
+        builder:
+            (context, state) => RegesterScreen(
+              icon: AppImages.hpspitalWelcom,
+              title: 'As Hospital',
+              subTitle:
+                  'You can send a request to the hospital for emergency treatment as soon as possible.',
+              routeLogin: Routes.login_H,
+              routeAfterRegister: Routes.Hospital_Step_1,
+            ),
       ),
       GoRoute(
         path: Privacy,
@@ -112,26 +127,34 @@ class Routes {
         path: forgetPassword,
         builder: (context, state) => ForgetPasswordScreen(),
       ),
-      GoRoute(path: OTP, builder: (context, state) => OtpVerficationScreen()),
+      GoRoute(path: oTP, builder: (context, state) => OtpVerficationScreen()),
       GoRoute(
-        path: ResetPassword,
+        path: resetPassword,
         builder: (context, state) => ResetPasswordScreen(),
       ),
       GoRoute(
-        path: EnerData_H,
-        builder: (context, state) => Enter_UserData(
-          steps: [Hospital_Step1(), Hospital_Step2(), Hospital_Step3()],
-          title: 'Hospital Details',
-          route: Routes.login_H,
-        ),
+        path: Patient_Step_1,
+        builder: (context, state) => PatientStep1(),
       ),
       GoRoute(
-        path: EnerData_P,
-        builder: (context, state) => Enter_UserData(
-          steps: [Patient_Step1(), Patient_Step2(), Patient_Step3()],
-          title: 'Patient Details',
-          route: Routes.login_P,
-        ),
+        path: Patient_Step_2,
+        builder: (context, state) => Patient_Step2(),
+      ),
+      GoRoute(
+        path: Patient_Step_3,
+        builder: (context, state) => Patient_Step3(),
+      ),
+      GoRoute(
+        path: Hospital_Step_1,
+        builder: (context, state) => HospitalStep1(),
+      ),
+      GoRoute(
+        path: Hospital_Step_2,
+        builder: (context, state) => Hospital_Step2(),
+      ),
+      GoRoute(
+        path: Hospital_Step_3,
+        builder: (context, state) => Hospital_Step3(),
       ),
 
       GoRoute(
@@ -139,6 +162,14 @@ class Routes {
         builder: (context, state) => Main_Screen_H(),
       ),
       GoRoute(path: Main_patient, builder: (context, state) => Main_Screen_P()),
+      // GoRoute(
+      //   path: EditProfile,
+      //   builder: (context, state) => EditProfileScreen(),
+      // ),
+      // GoRoute(
+      //   path: ChangePassword,
+      //   builder: (context, state) => ChangePasswordScreen(),
+      // ),
     ],
   );
 }
