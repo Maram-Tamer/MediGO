@@ -6,7 +6,7 @@ import 'package:medigo/core/routes/navigation.dart';
 import 'package:medigo/core/routes/routes.dart';
 import 'package:medigo/core/utils/colors.dart';
 import 'package:medigo/core/utils/fonts.dart';
-import 'package:medigo/features/Patient/presentation/pages/home/widget/hospital_card.dart';
+import 'package:medigo/features/Patient/presentation/pages/home/presentation/widget/get_hospitals.dart';
 
 class HomePatient extends StatefulWidget {
   const HomePatient({super.key});
@@ -30,7 +30,7 @@ class _HomePatientState extends State<HomePatient> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [searchAndFilters(), Gap(20), hospitalsListShow()],
+          children: [searchAndFilters(), Gap(20), getHospitals(), Gap(15)],
         ),
       ),
     );
@@ -60,7 +60,6 @@ class _HomePatientState extends State<HomePatient> {
                     Gap(15),
                     Icon(Icons.search, color: AppColors.darkGreyColor),
                     Gap(10),
-
                     Text(
                       'Search for hospital',
                       style: AppFontStyles.getSize16(
@@ -136,23 +135,6 @@ class _HomePatientState extends State<HomePatient> {
             Gap(15),
           ],
         ),
-      ),
-    );
-  }
-
-  Padding hospitalsListShow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: ListView.separated(
-        itemCount: 8,
-        itemBuilder: (context, index) {
-          return HospitalCard();
-        },
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) {
-          return Gap(15);
-        },
       ),
     );
   }
