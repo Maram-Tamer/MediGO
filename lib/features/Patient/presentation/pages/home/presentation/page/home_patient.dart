@@ -1,13 +1,18 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:medigo/components/App_Bar/app__bar.dart';
 import 'package:medigo/core/constatnts/icons.dart';
 import 'package:medigo/core/routes/navigation.dart';
 import 'package:medigo/core/routes/routes.dart';
+import 'package:medigo/core/services/firebase/FirebaseServices.dart';
 import 'package:medigo/core/utils/colors.dart';
 import 'package:medigo/core/utils/fonts.dart';
+import 'package:medigo/features/Hospital/data/model/doctor-model.dart';
 import 'package:medigo/features/Patient/presentation/pages/home/widget/hospital_card.dart';
 
+// ignore: must_be_immutable
 class HomePatient extends StatefulWidget {
   const HomePatient({super.key});
 
@@ -30,7 +35,7 @@ class _HomePatientState extends State<HomePatient> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [searchAndFilters(), Gap(20), hospitalsListShow()],
+          children: [searchAndFilters(), Gap(20), getHospitals(), Gap(15)],
         ),
       ),
     );
@@ -38,7 +43,7 @@ class _HomePatientState extends State<HomePatient> {
 
   Container searchAndFilters() {
     return Container(
-      color: AppColors.blueLight.withOpacity(0.8),
+      color: AppColors.blueLight.withValues(alpha: 0.8),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -60,7 +65,6 @@ class _HomePatientState extends State<HomePatient> {
                     Gap(15),
                     Icon(Icons.search, color: AppColors.darkGreyColor),
                     Gap(10),
-
                     Text(
                       'Search for hospital',
                       style: AppFontStyles.getSize16(
@@ -75,7 +79,7 @@ class _HomePatientState extends State<HomePatient> {
             Container(
               height: 50,
               decoration: BoxDecoration(
-                color: AppColors.greyColor.withOpacity(0.7),
+                color: AppColors.greyColor.withValues(alpha: 0.7),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Row(
@@ -98,7 +102,7 @@ class _HomePatientState extends State<HomePatient> {
                         });
                       },
                       child: Text(
-                        'Nearest',
+                        'Top Rated',
                         style: AppFontStyles.getSize16(
                           fontColor: AppColors.whiteColor,
                         ),
@@ -122,7 +126,7 @@ class _HomePatientState extends State<HomePatient> {
                         });
                       },
                       child: Text(
-                        'Top Rated',
+                        'Nearest',
                         style: AppFontStyles.getSize16(
                           fontColor: AppColors.whiteColor,
                         ),
@@ -133,27 +137,59 @@ class _HomePatientState extends State<HomePatient> {
                 ],
               ),
             ),
-            Gap(15),
           ],
         ),
       ),
     );
   }
 
-  Padding hospitalsListShow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: ListView.separated(
-        itemCount: 8,
-        itemBuilder: (context, index) {
-          return HospitalCard();
-        },
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) {
-          return Gap(15);
-        },
-      ),
+  Widget getHospitals() {
+    return FutureBuilder(
+      future: isNearest
+          ? FirebaseServices.getTopRatedHospitals(limit: 15)
+          : FirebaseServices.getNearestHospitals(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (!snapshot.hasData || snapshot.data.docs.isEmpty) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'No hospitals found',
+                style: AppFontStyles.getSize18(
+                    fontColor: AppColors.primaryGreenColor,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          );
+        }
+
+        var hospitals = snapshot.data.docs;
+        // log('${hospitals[1].data() as Map<String, dynamic>}       ${hospitals}');
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: hospitals.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              HospitalModel hospital = HospitalModel.fromJson(
+                hospitals[index].data() as Map<String, dynamic>,
+              );
+              return HospitalCard(hospital: hospital);
+            },
+          ),
+        );
+      },
     );
   }
 }
