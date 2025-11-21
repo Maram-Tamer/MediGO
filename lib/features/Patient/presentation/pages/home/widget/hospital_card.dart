@@ -10,12 +10,9 @@ import 'package:medigo/core/utils/fonts.dart';
 import 'package:medigo/features/Hospital/data/model/doctor-model.dart';
 
 class HospitalCard extends StatefulWidget {
-  const HospitalCard({
-    super.key,
-    this.submitRequest = false,
-    required this.hospital,
-  });
-
+  const HospitalCard(
+      {super.key, this.submitRequest = false, required this.hospital, this.km});
+  final double? km;
   final bool submitRequest;
   final HospitalModel hospital;
 
@@ -28,12 +25,13 @@ class _HospitalCardState extends State<HospitalCard> {
 
   @override
   Widget build(BuildContext context) {
+    log('${widget.km}');
     return GestureDetector(
       onTap: () {
         pushTo(
           context: context,
           route: Routes.HospitalDetails,
-          extra: {'hospital': widget.hospital, 'isAccepted': false},
+          extra: {'hospital': widget.hospital, 'isAccepted': false,'km':widget.km,},
         );
       },
       child: Container(
@@ -130,10 +128,24 @@ class _HospitalCardState extends State<HospitalCard> {
                                 fontColor: AppColors.slateGrayColor,
                               ),
                             ),
-                            Text(
-                              '| 200 reviews',
-                              style: AppFontStyles.getSize14(
-                                fontColor: AppColors.slateGrayColor,
+                            if (widget.km != null) ...[
+                              Icon(Icons.location_on_sharp,
+                                  color: Colors.red, size: 16),
+                              Text(
+                                '| ${widget.km!.toStringAsFixed(2)} Km ',
+                                style: AppFontStyles.getSize14(
+                                  fontColor: AppColors.slateGrayColor,
+                                ),
+                              ),
+                            ],
+                            Expanded(
+                              child: Text(
+                                '| 200 reviews',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: AppFontStyles.getSize14(
+                                  fontColor: AppColors.slateGrayColor,
+                                ),
                               ),
                             ),
                           ],

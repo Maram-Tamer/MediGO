@@ -41,7 +41,6 @@ class FirebaseServices {
   }
 
   static Future<QuerySnapshot> getPatient(String uid) {
-
     return _collectionPatient.where('uid', isEqualTo: uid).get();
   }
 
@@ -62,8 +61,20 @@ class FirebaseServices {
   static Future<QuerySnapshot> getNearestHospitals() async {
     return _collectionHospital.limit(15).get();
   }
-
-  static getHospitalsById(String id) async {}
+// في ملف FirebaseServices
+static Future<HospitalModel> getHospitalById(String hospitalId) async {
+  try {
+    DocumentSnapshot doc = await _collectionHospital.doc(hospitalId).get();
+    
+    if (doc.exists) {
+      return HospitalModel.fromJson(doc.data() as Map<String, dynamic>);
+    } else {
+      throw Exception('Hospital not found');
+    }
+  } catch (e) {
+    throw Exception('Error fetching hospital: $e');
+  }
+}
 
   static Future<QuerySnapshot> getRequests() {
     String hospitalID = LocalHelper.getUserId()!;
