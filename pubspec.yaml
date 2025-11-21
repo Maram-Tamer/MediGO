@@ -16,12 +16,17 @@ dependencies:
   file_picker: ^10.3.3
   firebase_auth: ^6.1.1
   firebase_core: ^4.2.0
+<<<<<<< HEAD
   permission_handler: ^11.0.1
+=======
+  firebase_storage: ^13.0.4
+>>>>>>> origin/patient_setting
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
   flutter_gap: ^1.2.0
   flutter_svg: ^2.2.0
+  fluttertoast: ^9.0.0
   gap: ^3.0.1
   geocoding: ^4.0.0
   geolocator: ^14.0.2

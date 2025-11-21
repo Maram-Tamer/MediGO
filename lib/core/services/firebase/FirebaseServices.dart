@@ -5,6 +5,7 @@ import 'package:medigo/core/services/local/local-helper.dart';
 import 'package:medigo/features/Hospital/data/model/doctor-model.dart';
 import 'package:medigo/features/Patient/data/model/patient-model.dart';
 import 'package:medigo/features/Patient/data/model/request-model.dart';
+import 'dart:io';
 
 class FirebaseServices {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -61,26 +62,39 @@ class FirebaseServices {
   static Future<QuerySnapshot> getNearestHospitals() async {
     return _collectionHospital.limit(15).get();
   }
+
 // في ملف FirebaseServices
-static Future<HospitalModel> getHospitalById(String hospitalId) async {
-  try {
-    DocumentSnapshot doc = await _collectionHospital.doc(hospitalId).get();
-    
-    if (doc.exists) {
-      return HospitalModel.fromJson(doc.data() as Map<String, dynamic>);
-    } else {
-      throw Exception('Hospital not found');
+  static Future<HospitalModel> getHospitalById(String hospitalId) async {
+    try {
+      DocumentSnapshot doc = await _collectionHospital.doc(hospitalId).get();
+
+      if (doc.exists) {
+        return HospitalModel.fromJson(doc.data() as Map<String, dynamic>);
+      } else {
+        throw Exception('Hospital not found');
+      }
+    } catch (e) {
+      throw Exception('Error fetching hospital: $e');
     }
-  } catch (e) {
-    throw Exception('Error fetching hospital: $e');
   }
-}
 
   static Future<QuerySnapshot> getRequests() {
     String hospitalID = LocalHelper.getUserId()!;
     return _collectionRequest.where('hospitalID', isEqualTo: hospitalID).get();
   }
-   static updateRequest(String requestId,RequestModel request) {
+
+  static updateRequest(String requestId, RequestModel request) {
     _collectionRequest.doc(requestId).update(request.toUpdateData());
   }
+
+  // static Future<String> uploadPatientImage(String uid, File imageFile) async {
+  //   final storageRef = FirebaseStorage.instance.ref().child(
+  //       "patients/$uid/profile_${DateTime.now().millisecondsSinceEpoch}.jpg");
+
+  //   // Upload file
+  //   await storageRef.putFile(imageFile);
+
+  //   // Return download URL
+  //   return await storageRef.getDownloadURL();
+  // }
 }
